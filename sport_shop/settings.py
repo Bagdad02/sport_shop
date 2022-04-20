@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-qi@v-c37o2-(@uw5pl^=rm6z63wyt&mmm%2gm_z=2g5*_7c5h*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG',default=True, cast=bool)
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
@@ -43,9 +43,13 @@ INSTALLED_APPS = [
 
     #apps
     'applications.account',
+    'applications.product',
+    'applications.order',
+
      
     #moduls
-    
+    'drf_yasg',
+    'django_filters',
     'rest_framework',
     'rest_framework.authtoken',
 
@@ -134,6 +138,17 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media/'
+
+REST_FRAMEWORK = {
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 4,
+
+}
 
 
 AUTH_USER_MODEL = 'account.CustomUser'

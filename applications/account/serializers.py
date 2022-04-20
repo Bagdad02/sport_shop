@@ -5,9 +5,9 @@ from applications.account.send_mail import send_confirmation_email
 
 User = get_user_model()
 
+
 class RegisterSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(min_length=6, write_only=True, required=True)
-
 
     class Meta:
         model = User
@@ -32,13 +32,14 @@ class RegisterSerializer(serializers.ModelSerializer):
         send_confirmation_email(code, user)
         return user
 
+
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     password = serializers.CharField(required=True)
 
     def validate_email(self, email):
         if not User.objects.filter(email=email).exists():
-            raise serializers.ValidationError('пользователь не зарегистрирв')
+            raise serializers.ValidationError('пользователь не зарегистрирован')
         return email
 
     def validate(self, attrs):
