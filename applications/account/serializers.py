@@ -21,10 +21,10 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('password don`t match!')
         return attrs
 
-    def validate_email(self, email):
-        if not email.endswith("gmail.com"):
-            raise serializers.ValidationError("Your email must end with 'gmail.com'")
-        return email
+    # def validate_email(self, email):
+    #     if not email.endswith("gmail.com"):
+    #         raise serializers.ValidationError("Your email must end with 'gmail.com'")
+    #     return email
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)

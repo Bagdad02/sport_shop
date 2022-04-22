@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from applications.product.models import Product, Category
-from applications.product.serializers import CategorySerializers, ProductSerializer
+from applications.product.serializers import CategorySerializers, ProductSerializer, UserProductRelationSerializers
 
 
 class LargeResultsSetPagination(PageNumberPagination):
@@ -27,6 +27,10 @@ class ProductViewSet(ModelViewSet):
     ordering_fields = ['id', 'price']
     search_fields = ['title', 'status']
 
+    @action(methods=['POST'], detail=True)
+    def rating(self,request,pk): # http://localhost:8000/product/id_product/rating/
+        serializer = UserProductRelationSerializers(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
 class CategoryListCreateView(ListCreateAPIView):
     queryset = Category.objects.all()
