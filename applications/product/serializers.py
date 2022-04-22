@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from applications.product.models import Product, Category, Image
+from applications.product.models import Product, Category, Image, UserProductRelation
 
 
 class CategorySerializers(serializers.ModelSerializer):
@@ -31,5 +31,12 @@ class ProductSerializer(serializers.ModelSerializer):
             Image.objects.create(product=product, image=image)
 
         return product
+
+
+class UserProductRelationSerializers(serializers.ModelSerializer):
+    # owner = serializers.EmailField(required=False)
+    class Meta:
+        model = UserProductRelation
+        fields = ('__all__')
 
 

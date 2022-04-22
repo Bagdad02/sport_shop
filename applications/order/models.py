@@ -10,4 +10,4 @@ class Order(models.Model):
     email = models.EmailField(null=True)
 
     def __str__(self):
-        return self.phone
+        return f'{self.email} - {self.phone}'

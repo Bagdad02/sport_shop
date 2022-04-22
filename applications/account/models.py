@@ -16,9 +16,9 @@ class UserManager(BaseUserManager):
 
     def create_user(self, email, password, **kwargs):
         kwargs.setdefault('is_staff',
-                          False)  # Определяет, может ли этот пользователь получить доступ к сайту администратора.
+                          False)
         kwargs.setdefault('is_superuser',
-                          False)  # логический. Обозначает, что у этого пользователя есть все разрешения без их явного назначения.
+                          False)
         return self._create_user(email, password, **kwargs)
 
     def create_superuser(self, email, password, **kwargs):
@@ -40,7 +40,7 @@ class CustomUser(AbstractUser):
     objects = UserManager()
     username = None
     is_active = models.BooleanField(
-        default=False)  # логический. Указывает, следует ли считать эту учетную запись активной.
+        default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
