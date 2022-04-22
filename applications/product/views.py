@@ -32,9 +32,22 @@ class ProductViewSet(ModelViewSet):
         serializer = UserProductRelationSerializers(data=request.data)
         serializer.is_valid(raise_exception=True)
 
+    def get_permissions(self):
+        print(self.action)
+        if self.action in ['list', 'retrieve']:
+            permissions = []
+        elif self.action == 'rating':
+            permissions = [IsAuthenticated]
+        else:
+            permissions = [IsAuthenticated]
+        return [permission() for permission in permissions]
+
+
+
 class CategoryListCreateView(ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializers
+    permission_classes = [IsAuthenticated]
 
 
 class CategoryDeleteUpdateRetriveView(RetrieveUpdateDestroyAPIView):
