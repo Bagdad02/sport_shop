@@ -1,11 +1,21 @@
 from rest_framework import serializers
 
-from applications.product.models import Product, Category, Image, UserProductRelation
+from applications.product.models import Product, Category, Image, Like, Rating
 
 
 class CategorySerializers(serializers.ModelSerializer):
     class Meta:
         model = Category
+        fields = '__all__'
+
+class RatingSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ('rating',)
+
+class LikeSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Like
         fields = '__all__'
 
 
@@ -33,10 +43,14 @@ class ProductSerializer(serializers.ModelSerializer):
         return product
 
 
-class UserProductRelationSerializers(serializers.ModelSerializer):
-    # owner = serializers.EmailField(required=False)
-    class Meta:
-        model = UserProductRelation
-        fields = ('__all__')
-
-
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        rating_result = 0
+        for i in instance.rating.all():
+            rating_result += int(i.rating)
+        if instance.rating.all().count() == 0:
+            representation['rating'] = rating_result
+        else:
+            representation['rating'] = rating_result / instance.rating.all().count()
+        representation['likes'] = instance.like.filter(like=True).count()
+        return representation

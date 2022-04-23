@@ -35,17 +35,22 @@ class Image(models.Model):
     image = models.ImageField(upload_to='images')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
 
-class UserProductRelation(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    like = models.BooleanField(default=False)
-
+class Rating(models.Model):
+    product = models.ForeignKey(Product,on_delete=models.CASCADE, related_name='rating')
+    owner = models.ForeignKey(User,on_delete=models.CASCADE, related_name='rating')
     rating = models.SmallIntegerField(validators=[
         MinValueValidator(1),
         MaxValueValidator(5)
     ]
+
     )
 
+class Like(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='like', verbose_name='владелец лайка')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='like', verbose_name='прщдукт')
+    like = models.BooleanField('ЛАЙК', default=False)
+    def __str__(self):
+        return f'{self.owner}, {self.like}'
 
 class Comment(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')
